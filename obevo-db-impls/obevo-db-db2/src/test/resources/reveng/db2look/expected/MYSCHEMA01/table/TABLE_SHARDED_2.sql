@@ -1,6 +1,0 @@
-//// CHANGE name=change0
-CREATE TABLE TABLE_SHARDED_2  (
-		  FIELD1 INTEGER , 
-		  FIELD2 INTEGER )   
-		 IN "${MYTBSPACE_TSP001_token}" 
-GO
