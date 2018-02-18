@@ -182,8 +182,7 @@
           <li class="nav-header">Developer Information</li>
     <li><a href="developer-guide.html" title="Developer Guide"><span class="icon-chevron-down"></span>Developer Guide</a>
       <ul class="nav nav-list">
-    <li class="active"><a href="#"><span class="none"></span>Amazon RDS DB Setup</a>
-  </li>
+    <li><a href="dev-setup-amazon.html" title="Amazon RDS DB Setup"><span class="none"></span>Amazon RDS DB Setup</a>  </li>
     <li><a href="dev-setup-db2.html" title="DB2 Test DB Setup"><span class="none"></span>DB2 Test DB Setup</a>  </li>
     <li><a href="dev-setup-sybase-ase.html" title="Sybase ASE Test DB Setup"><span class="none"></span>Sybase ASE Test DB Setup</a>  </li>
       </ul>
@@ -218,43 +217,10 @@
     under the License.
 
 --><p>(WORK IN PROGRESS)</p>
-<div class="section">
-<div class="section">
-<h3><a name="Amazon_RDS_for_integration_testing"></a>Amazon RDS (for integration testing)</h3>
-<div class="section">
-<div class="section">
-<div class="section">
-<h6><a name="Background:"></a>Background:</h6>
-<p>For integration testing against live databases, we rely on Amazon RDS to host our database instances.</p>
-<p>Where possible (i.e. if it is free), we have an instance always running and available for test (e.g. Postgres, SQL Server). These servers are currently available for any developer to use, but we will soon dedicate these servers for the continuous build and make it easier for developers to setup their own environments.</p>
-<p>If it is not free (e.g. Oracle), we can use the Amazon RDS API to create an instance for testing and to deactivate it when not in use.</p>
-<p>The module obevo-internal-test-util has code for you to use to run this.</p></div>
-<div class="section">
-<h6><a name="Setup_instructions:"></a>Setup instructions:</h6>
-<p>Setup the account in AWS:</p>
-
-<ul>
-  
-<li>Go to the AWS Page: <a class="externalLink" href="https://aws.amazon.com/">https://aws.amazon.com/</a></li>
-  
-<li>My Account -&gt; Security Credentials</li>
-  
-<li>Go to Users, then Add User</li>
-  
-<li>Create a user with &#x201c;Programmatic Access&#x201d; (not AWS Management Console access)</li>
-  
-<li>Create user with RDS Full Permissions</li>
-  
-<li>Ensure that the user has the &#x201c;AmazonRDSFullAccess&#x201d; policy</li>
-  
-<li>Note the access key and secret access key that you</li>
-</ul>
-<p>Then setup your credentials and config files using the access keys above - see the links below:</p>
-
-<ul>
-  
-<li><a class="externalLink" href="https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/setup-credentials.html">Credential Setup</a></li>
-</ul></div></div></div></div></div>
+<h1>MongoDB</h1>
+<p>Install it locally <a class="externalLink" href="https://docs.mongodb.com/getting-started/shell/installation/">https://docs.mongodb.com/getting-started/shell/installation/</a></p>
+<p>&#x201c;Run MongoDB&#x201d; step <a class="externalLink" href="https://docs.mongodb.com/getting-started/shell/tutorial/install-mongodb-on-os-x/">https://docs.mongodb.com/getting-started/shell/tutorial/install-mongodb-on-os-x/</a></p>
+<p>mongod &#x2013;dbpath /data/db</p>
         </div>
       </div>
     </div>

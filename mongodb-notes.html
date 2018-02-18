@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="Date-Revision-yyyymmdd" content="20180217" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>Obevo &#x2013; </title>
+    <title>Obevo &#x2013; MongoDB Notes</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.6.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -127,7 +127,7 @@
       <div id="breadcrumbs">
         <ul class="breadcrumb">
         <li class=""><a href="./" title="Obevo">Obevo</a><span class="divider">/</span></li>
-    <li class="active "></li>
+    <li class="active ">MongoDB Notes</li>
         <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published: 2018-02-17</li>
           <li id="projectVersion" class="pull-right">Version: 6.5.0</li>
         </ul>
@@ -165,7 +165,8 @@
     <li><a href="db2-notes.html" title="DB2"><span class="none"></span>DB2</a>  </li>
     <li><a href="general-db-notes.html" title="HSQLDB"><span class="none"></span>HSQLDB</a>  </li>
     <li><a href="general-db-notes.html" title="H2"><span class="none"></span>H2</a>  </li>
-    <li><a href="mongodb-notes.html" title="MongoDB"><span class="none"></span>MongoDB</a>  </li>
+    <li class="active"><a href="#"><span class="none"></span>MongoDB</a>
+  </li>
     <li><a href="general-db-notes.html" title="Oracle"><span class="none"></span>Oracle</a>  </li>
     <li><a href="general-db-notes.html" title="PostgreSQL"><span class="none"></span>PostgreSQL</a>  </li>
     <li><a href="redshift-notes.html" title="Redshift"><span class="none"></span>Redshift</a>  </li>
@@ -182,8 +183,7 @@
           <li class="nav-header">Developer Information</li>
     <li><a href="developer-guide.html" title="Developer Guide"><span class="icon-chevron-down"></span>Developer Guide</a>
       <ul class="nav nav-list">
-    <li class="active"><a href="#"><span class="none"></span>Amazon RDS DB Setup</a>
-  </li>
+    <li><a href="dev-setup-amazon.html" title="Amazon RDS DB Setup"><span class="none"></span>Amazon RDS DB Setup</a>  </li>
     <li><a href="dev-setup-db2.html" title="DB2 Test DB Setup"><span class="none"></span>DB2 Test DB Setup</a>  </li>
     <li><a href="dev-setup-sybase-ase.html" title="Sybase ASE Test DB Setup"><span class="none"></span>Sybase ASE Test DB Setup</a>  </li>
       </ul>
@@ -217,44 +217,49 @@
     specific language governing permissions and limitations
     under the License.
 
---><p>(WORK IN PROGRESS)</p>
+--><h1>MongoDB Notes</h1>
+<p>MongoDB is not an RDBMS and is typically used in a &#x201c;schemaless&#x201d; manner. Hence, it may not seem like a natural fit for a structured database deployment tool.</p>
+<p>However, some teams may have the desire to script and deploy changes to their Mongo instance in a controlled manner, e.g. for index updates or data modifications.</p>
+<p>As such, we provide support for it in Obevo to allow for a similar user experience for those that also use databases. MongoDB was also Obevo&#x2019;s first attempt at supporting a NoSQL platform, and as such is a proof of concept that the object-based file structure pattern is a generic setup that can be applied to various platform types.</p>
 <div class="section">
+<h2><a name="Configuration"></a>Configuration</h2>
+<p>The configuration and file setup for MongoDB mostly follows the pattern described in the <a href="db-project-structure.html">DB Project Structure</a> page. Here we highlight the differences.</p>
 <div class="section">
-<h3><a name="Amazon_RDS_for_integration_testing"></a>Amazon RDS (for integration testing)</h3>
-<div class="section">
-<div class="section">
-<div class="section">
-<h6><a name="Background:"></a>Background:</h6>
-<p>For integration testing against live databases, we rely on Amazon RDS to host our database instances.</p>
-<p>Where possible (i.e. if it is free), we have an instance always running and available for test (e.g. Postgres, SQL Server). These servers are currently available for any developer to use, but we will soon dedicate these servers for the continuous build and make it easier for developers to setup their own environments.</p>
-<p>If it is not free (e.g. Oracle), we can use the Amazon RDS API to create an instance for testing and to deactivate it when not in use.</p>
-<p>The module obevo-internal-test-util has code for you to use to run this.</p></div>
-<div class="section">
-<h6><a name="Setup_instructions:"></a>Setup instructions:</h6>
-<p>Setup the account in AWS:</p>
+<h3><a name="system-config.xml_file"></a>system-config.xml file</h3>
+<p>Renamings: * dbSystemConfig can be referred to as systemConfig; dbSystemConfig is also readable for backwards-compatibility purposes * dbEnvironment can be referred to as environment; dbSystemConfig is also readable for backwards-compatibility purposes</p>
+<p>The only connection parameter allowed is connectionURI, whose format is defined in the <a class="externalLink" href="http://api.mongodb.com/java/current/com/mongodb/MongoClientURI.html">MongoClientURI Javadoc</a></p>
+<p>Permission schemes, grants, and users are not supported.</p>
+<p>Here is an example configuration file:</p>
 
-<ul>
-  
-<li>Go to the AWS Page: <a class="externalLink" href="https://aws.amazon.com/">https://aws.amazon.com/</a></li>
-  
-<li>My Account -&gt; Security Credentials</li>
-  
-<li>Go to Users, then Add User</li>
-  
-<li>Create a user with &#x201c;Programmatic Access&#x201d; (not AWS Management Console access)</li>
-  
-<li>Create user with RDS Full Permissions</li>
-  
-<li>Ensure that the user has the &#x201c;AmazonRDSFullAccess&#x201d; policy</li>
-  
-<li>Note the access key and secret access key that you</li>
-</ul>
-<p>Then setup your credentials and config files using the access keys above - see the links below:</p>
-
-<ul>
-  
-<li><a class="externalLink" href="https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/setup-credentials.html">Credential Setup</a></li>
-</ul></div></div></div></div></div>
+<div class="source">
+<div class="source"><pre class="prettyprint">&lt;systemConfig type=&quot;MONGODB&quot;&gt;
+    &lt;schemas&gt;
+        &lt;schema name=&quot;MYSCHEMA&quot; /&gt;
+    &lt;/schemas&gt;
+    &lt;environments&gt;
+        &lt;environment name=&quot;test1&quot; connectionURI=&quot;mongodb://localhost:10000&quot; /&gt;
+        &lt;environment name=&quot;test2&quot; connectionURI=&quot;mongodb://localhost:10001&quot;&gt;
+            &lt;schemaOverrides&gt;
+                &lt;schemaOverride schema=&quot;MYSCHEMA&quot; overrideValue=&quot;MYSCHEMA_TEST2&quot;/&gt;
+            &lt;/schemaOverrides&gt;
+            &lt;tokens&gt;
+                &lt;token key=&quot;key&quot; value=&quot;val&quot;/&gt;
+            &lt;/tokens&gt;
+        &lt;/environment&gt;
+    &lt;/environments&gt;
+&lt;/systemConfig&gt;
+</pre></div></div></div>
+<div class="section">
+<h3><a name="Available_Object_Types"></a>Available Object Types</h3>
+<p>See <a class="externalLink" href="https://github.com/goldmansachs/obevo/tree/master/obevo-mongodb/src/test/resources/platforms/mongodb/step1/schema1">this link</a> for reference examples.</p>
+<p>All source is read as Javascript files with extension *.js</p>
+<div class="section">
+<div class="section">
+<h5><a name="acollection"></a>/collection</h5>
+<p>Rerunnable object type that contains information for collection definitions, e.g. indexes.</p></div>
+<div class="section">
+<h5><a name="amigration"></a>/migration</h5>
+<p>Data migrations are also possible as described here: <a href="db-project-structure.html#Ad-hoc_data_migrations">migration type</a></p></div></div></div></div>
         </div>
       </div>
     </div>
