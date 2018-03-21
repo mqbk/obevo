@@ -305,11 +305,12 @@ CREATE TABLE TAB1 (  -- preferred</pre></div>
 <p>You can define tokens yourself (see the<a href="environment-management.html">tokenization doc</a>), or you
                 can use the built-in tokens for the physical schema name. For example, assuming you've defined the logical schema
                 name as THATSCHEMA in your system-config.xml that maps to the OTHERSCHEMA1 physical schema, use the token as
-                below (&lt;logicalSchema&gt;_physicalSchema)
+                below (&lt;logicalSchema&gt;_schemaSuffixed). Note that this token includes the dot separator/s (i.e. to handle
+                DBMS types that sometimes require multiple dots as separators).
             </p>
 
             
-<div class="source"><pre class="prettyprint">CREATE VIEW MYVIEW1 AS SELECT * FROM ${THATSCHEMA_physicalName}.OTHER_TABLE</pre></div>
+<div class="source"><pre class="prettyprint">CREATE VIEW MYVIEW1 AS SELECT * FROM ${THATSCHEMA_schemaSuffixed}OTHER_TABLE</pre></div>
 
             </div>
 <div class="section">
