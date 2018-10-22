@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="Date-Revision-yyyymmdd" content="20181019" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>Obevo &#x2013; Maven API</title>
+    <title>Obevo &#x2013; </title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.6.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -129,7 +129,7 @@
       <div id="breadcrumbs">
         <ul class="breadcrumb">
         <li class=""><a href="./" title="Obevo">Obevo</a><span class="divider">/</span></li>
-    <li class="active ">Maven API</li>
+    <li class="active "></li>
         <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published: 2018-10-19</li>
           <li id="projectVersion" class="pull-right">Version: 7.0.0</li>
         </ul>
@@ -151,8 +151,7 @@
           <li class="nav-header">API Documentation</li>
     <li><a href="command-line-api.html" title="Command-line API"><span class="none"></span>Command-line API</a>  </li>
     <li><a href="java-api.html" title="Java API"><span class="none"></span>Java API</a>  </li>
-    <li class="active"><a href="#"><span class="none"></span>Maven plugin API</a>
-  </li>
+    <li><a href="maven-api.html" title="Maven plugin API"><span class="none"></span>Maven plugin API</a>  </li>
     <li><a href="gradle-api.html" title="Gradle API"><span class="none"></span>Gradle API</a>  </li>
           <li class="nav-header">Advanced Topics</li>
     <li><a href="db-project-best-practices.html" title="DB Project Best Practices"><span class="none"></span>DB Project Best Practices</a>  </li>
@@ -166,7 +165,8 @@
     <li><a href="phased-deployments.html" title="Phased Deployments"><span class="none"></span>Phased Deployments</a>  </li>
     <li><a href="incremental-change-code-cleanup.html" title="Incremental Change Code Cleanup"><span class="none"></span>Incremental Change Code Cleanup</a>  </li>
           <li class="nav-header">Platform-Specific Details</li>
-    <li><a href="platform-listing.html" title="Platform Listing"><span class="none"></span>Platform Listing</a>  </li>
+    <li class="active"><a href="#"><span class="none"></span>Platform Listing</a>
+  </li>
     <li><a href="db2-notes.html" title="DB2"><span class="none"></span>DB2</a>  </li>
     <li><a href="general-db-notes.html" title="HSQLDB"><span class="none"></span>HSQLDB</a>  </li>
     <li><a href="general-db-notes.html" title="H2"><span class="none"></span>H2</a>  </li>
@@ -221,53 +221,115 @@
     specific language governing permissions and limitations
     under the License.
 
---><h1>Maven API</h1>
-<p>In terms of the maven plugin - it basically looks like the following.</p>
+--><p>Below are the list of platforms supported in Obevo.</p>
+<p>The acronyms are used for command-line arguments and configurations; they will be referenced in other docs on this site.</p>
+<p>Follow the links on the left to see details on using Obevo for each implementation.</p>
 
-<div class="source">
-<div class="source"><pre class="prettyprint">&lt;plugin&gt;
-    &lt;groupId&gt;com.goldmansachs.obevo&lt;/groupId&gt;
-    &lt;artifactId&gt;obevo-maven-plugin&lt;/artifactId&gt;
-    &lt;version&gt;7.0.0&lt;/version&gt;
-    &lt;executions&gt;
-        &lt;execution&gt;
-            &lt;id&gt;deploy-db-module&lt;/id&gt;
-            &lt;goals&gt;
-                &lt;goal&gt;deploy&lt;/goal&gt;
-            &lt;/goals&gt;
-            &lt;configuration&gt;
-                &lt;env&gt;dev1&lt;/env&gt;
-                &lt;user&gt;deployer&lt;/user&gt;
-                &lt;password&gt;deploypass&lt;/password&gt;
-                &lt;sourcePath&gt;src/main/database&lt;/sourcePath&gt;
-            &lt;/configuration&gt;
-        &lt;/execution&gt;
-    &lt;/executions&gt;
-&lt;/plugin&gt;
-</pre></div></div>
-<p>The provided goals and arguments are mostly the same. Here is a rundown:</p>
-<p>There are a few goals that are mostly similar. Here is a quick description:</p>
-<p>1) &#x201c;deploy&#x201d; goal - does a regular deployment given the arguments provided</p>
-
-<ul>
-  
-<li>You can provide &#x201c;noPrompt&#x201d; and &#x201c;cleanFirst&#x201d; boolean arguments as needed</li>
-</ul>
-<p>2) &#x201c;test&#x201d; goal - runs in the test phase, does a clean + deploy against that environment</p>
-
-<ul>
-  
-<li>The desired usage here is for your build, i.e. run at build-time against a test db server that only the build uses to verify that your db scripts are correct</li>
-  
-<li>It will set noPrompt=true and cleanFirst=true by default</li>
-  
-<li>Use the validateBaseline boolean argument if you&#x2019;d like to leverage the validateBaseline functionality</li>
-</ul>
-<p>3) &#x201c;preview&#x201d; goal - shows the changes that will be applied to the DB along with validations, but without doing an actual deployment A suggestion is to have these scripts run against a test db server that no one other than the build uses, so that you can guarantee that the scripts are fine</p>
-<div class="section">
-<h2><a name="Configuring_Custom_Logging_for_Obevo_in_Maven"></a>Configuring Custom Logging for Obevo in Maven</h2>
-<p>Obevo uses the <a class="externalLink" href="https://www.slf4j.org">SLF4J API</a>, and the main jars do not include any logging implementations as third-party dependencies.</p>
-<p>Hence, you can leverage the usual Maven logging settings to configure the log level for Obevo.</p></div>
+<table border="0" class="table table-striped">
+  <thead>
+    
+<tr class="a">
+      
+<th>Platform</th>
+      
+<th>Acronym</th>
+      
+<th>Module</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+<tr class="b">
+      
+<td><a class="externalLink" href="https://www.ibm.com/db2">IBM DB2</a></td>
+      
+<td>DB2</td>
+      
+<td>obevo-db-db2</td>
+    </tr>
+    
+<tr class="a">
+      
+<td><a class="externalLink" href="http://www.h2database.com">H2 Database</a></td>
+      
+<td>H2</td>
+      
+<td>obevo-db-h2</td>
+    </tr>
+    
+<tr class="b">
+      
+<td><a class="externalLink" href="http://hsqldb.org">HyperSQL (HSQLDB)</a></td>
+      
+<td>HSQL</td>
+      
+<td>obevo-db-h2</td>
+    </tr>
+    
+<tr class="a">
+      
+<td><a class="externalLink" href="https://www.oracle.com/database/index.html">Oracle</a></td>
+      
+<td>ORACLE</td>
+      
+<td>obevo-db-oracle</td>
+    </tr>
+    
+<tr class="b">
+      
+<td><a class="externalLink" href="https://www.postgresql.org">PostgreSQL</a></td>
+      
+<td>POSTGRESQL</td>
+      
+<td>obevo-db-postgresql</td>
+    </tr>
+    
+<tr class="a">
+      
+<td><a class="externalLink" href="https://aws.amazon.com/redshift/">Amazon Redshift</a></td>
+      
+<td>REDSHIFT</td>
+      
+<td>obevo-db-postgresql (same as PostgreSQL)</td>
+    </tr>
+    
+<tr class="b">
+      
+<td><a class="externalLink" href="https://www.microsoft.com/en-us/sql-server">Microsoft SQL Server</a></td>
+      
+<td>MSSQL</td>
+      
+<td>obevo-db-mssql</td>
+    </tr>
+    
+<tr class="a">
+      
+<td><a class="externalLink" href="https://www.sap.com/products/sybase-ase.html">Sybase ASE / SAP ASE</a></td>
+      
+<td>SYBASE_ASE</td>
+      
+<td>obevo-db-sybase-ase</td>
+    </tr>
+    
+<tr class="b">
+      
+<td><a class="externalLink" href="https://www.sap.com/products/sybase-iq-big-data-management.html">Sybase IQ / SAP IQ</a></td>
+      
+<td>SYBASE_IQ</td>
+      
+<td>obevo-db-sybase-iq</td>
+    </tr>
+    
+<tr class="a">
+      
+<td><a class="externalLink" href="https://www.mongodb.com">MongoDB</a></td>
+      
+<td>MONGODB</td>
+      
+<td>obevo-mongodb</td>
+    </tr>
+  </tbody>
+</table>
         </div>
       </div>
     </div>
